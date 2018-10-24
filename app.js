@@ -13,15 +13,16 @@ let appData = {
 
 if(localStorage.appData) {
   appData = JSON.parse(localStorage.appData)
-  appData.taskList.forEach((cur) => {
-  })
+  for (let index = 0; index < appData.taskCount; index++) {
+    renderElement(index, appData.taskList[index])
+  }
 } else {
   localStorage.setItem("appData", JSON.stringify(appData))
 }
 
 function renderElement(count, str) {
   let HTMLString = `
-     <li class="collection-item" id="task-${count}" onclick="javascript:remove('task-${count}')" data-string="${inputValue}">
+     <li class="collection-item" id="task-${count}" onclick="javascript:remove('task-${count}')" data-string="${str}">
                 ${str}
                 <a href="#" class="delete-item secondary-content">
                   <i class="material-icons">remove</i>
