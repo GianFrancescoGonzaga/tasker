@@ -110,3 +110,7 @@ function updateLocalStorage() {
 }
 
 /* ================== */
+$(document).ready(function(){
+  $('.modal').modal();
+});
+        
