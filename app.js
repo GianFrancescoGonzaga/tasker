@@ -1,6 +1,6 @@
 let appData = {
   taskCount: 0,
-  taskList: 0
+  taskList: []
 }
 
 const DOMElements = {
@@ -12,8 +12,8 @@ const DOMElements = {
 }
 
 
-let taskCount = 0;
-let taskList = []
+// let taskCount = 0;
+// let taskList = []
 
 
 /* ================== */
@@ -28,13 +28,13 @@ function addTask() {
   let inputValue = DOMElements.inputForm.value
   if (inputValue === "" || inputValue === null || inputValue === 0) {
     alert('Please add a valid Task!')
-  } else if(taskList.includes(inputValue)) {
+  } else if (appData.taskList.includes(inputValue)) {
     alert(`You've already added that task!`)
   } else {
-    taskCount++
-    taskList.push(inputValue)
+    appData.taskCount++
+    appData.taskList.push(inputValue)
     let HTMLString = `
-     <li class="collection-item" id="task-${taskCount}" onclick="javascript:remove('task-${taskCount}')" data-string="${inputValue}">
+     <li class="collection-item" id="task-${appData.taskCount}" onclick="javascript:remove('task-${appData.taskCount}')" data-string="${inputValue}">
                 ${inputValue}
                 <a href="#" class="delete-item secondary-content">
                   <i class="material-icons">remove</i>
@@ -42,8 +42,9 @@ function addTask() {
               </li> `
     DOMElements.ul.insertAdjacentHTML("afterbegin", HTMLString)
     DOMElements.inputForm.value = ''
-    console.log(taskList, taskCount)
-  } 
+    updateLocalStorage()
+    console.log(appData)
+  }
 
 }
 
@@ -54,16 +55,18 @@ function addTask() {
 /*   Remove Function   */
 
 
-DOMElements.inputForm.addEventListener('keyup', function(event){
+DOMElements.inputForm.addEventListener('keyup', function (event) {
   event.preventDefault()
   if (event.keyCode === 13)
-  addTask()
+    addTask()
 })
 
 function removeAll() {
   DOMElements.ul.innerHTML = ''
-  taskList = []
-  taskCount = 0
+  appData.taskList = []
+  appData.taskCount = 0
+  updateLocalStorage()
+  console.log(appData)
 }
 
 DOMElements.clearButton.addEventListener('click', removeAll)
@@ -72,9 +75,14 @@ function remove(taskID) {
   let listItem = document.getElementById(taskID)
   listItem.parentNode.removeChild(listItem)
   let value = listItem.dataset.string
-  taskList = taskList.filter(item => item != value)
-  taskCount--
-  console.log(taskList, taskCount)
+  appData.taskList = appData.taskList.filter(item => item != value)
+  appData.taskCount--
+  updateLocalStorage()
+  console.log(appData)
+}
+
+function updateLocalStorage() {
+  localStorage.setItem("appData", JSON.stringify(appData))
 }
 
 /* ================== */
