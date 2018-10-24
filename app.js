@@ -1,3 +1,8 @@
+let appData = {
+  taskCount: 0,
+  taskList: 0
+}
+
 const DOMElements = {
   removeButton: document.querySelectorAll('.fa-remove'),
   addButton: document.querySelector('#addTask'),
