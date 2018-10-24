@@ -1,8 +1,3 @@
-let appData = {
-  taskCount: 0,
-  taskList: []
-}
-
 const DOMElements = {
   removeButton: document.querySelectorAll('.fa-remove'),
   addButton: document.querySelector('#addTask'),
@@ -10,6 +5,34 @@ const DOMElements = {
   inputForm: document.getElementById('task'),
   ul: document.querySelector('.collection'),
 }
+
+let appData = {
+  taskCount: 0,
+  taskList: []
+}
+
+if(localStorage.appData) {
+  appData = JSON.parse(localStorage.appData)
+  appData.taskList.forEach((cur) => {
+  })
+} else {
+  localStorage.setItem("appData", JSON.stringify(appData))
+}
+
+function renderElement(count, str) {
+  let HTMLString = `
+     <li class="collection-item" id="task-${count}" onclick="javascript:remove('task-${count}')" data-string="${inputValue}">
+                ${str}
+                <a href="#" class="delete-item secondary-content">
+                  <i class="material-icons">remove</i>
+                </a>
+              </li> `
+  DOMElements.ul.insertAdjacentHTML("afterbegin", HTMLString)
+}
+
+
+
+
 
 
 // let taskCount = 0;
